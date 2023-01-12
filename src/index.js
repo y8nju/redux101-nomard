@@ -5,7 +5,10 @@ const add = document.getElementById("add");
 const minus = document.getElementById("minus");
 const number = document.querySelector("span");
 
+number.innerText = 0;
+
 const countModifier = (count = 0, action) => {
+  console.log(count, action)
   if (action.type === "ADD") {
     return count + 1
   } else if (action.type === "MINUS") {
@@ -26,7 +29,20 @@ const countModifier = (count = 0, action) => {
 // store: 데이터 저장
 const countStore = createStore(countModifier);
 
-countStore.dispatch({type: "ADD"});
-countStore.dispatch({type: "ADD"});
-countStore.dispatch({type: "MINUS"});
-console.log(countStore.getState());
+const onChange = () => {
+  number.innerText = countStore.getState();
+};
+
+// subscribe: store 안에 있는 변화들을 알 수 있다
+countStore.subscribe(onChange);
+
+const handleAdd = () => {
+  countStore.dispatch({type: "ADD"});
+
+};
+const handleMinus = () => {
+  countStore.dispatch({type: "MINUS"});
+}
+
+add.addEventListener("click", handleAdd);
+minus.addEventListener("click", handleMinus);
