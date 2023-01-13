@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ToDo from "../components/ToDo";
 import { actionCreators } from "../store";
 
 function Home() {
     const [text, setText] = useState("");
     const toDos = useSelector((state) => state);
     const dispatch = useDispatch();
-    const {addToDo, deleteToDo} = actionCreators
+    const { addToDo } = actionCreators;
     
     function onChange(e) {
         setText(e.target.value)
@@ -26,7 +27,9 @@ function Home() {
             <button>ADD</button>
         </form>
         <ul>
-            {JSON.stringify(toDos)}
+            {toDos.map(toDo => (
+                <ToDo {...toDo} key={toDo.id} />
+            ))}
         </ul>
     </>)
 }
